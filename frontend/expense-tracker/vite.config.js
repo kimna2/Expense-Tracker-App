@@ -10,5 +10,13 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     allowedHosts: true,
+
+    proxy: {
+      '/api': {
+        target: 'https://killingly-unstained-trang.ngrok-free.dev', // 🔴 LINK NGROK BACKEND
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 })
