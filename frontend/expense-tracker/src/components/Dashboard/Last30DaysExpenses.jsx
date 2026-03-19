@@ -3,13 +3,15 @@ import CustomBarChart from "../charts/CustomBarChart";
 import { prepareExpenseBarChartData } from "../../utils/helper";
 
 const Last30DaysExpenses = ({ data }) => {
+  // [SIMPLIFY] Derived data — use useMemo:
+  //   const chartData = useMemo(() => prepareExpenseBarChartData(data), [data]);
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
    const result = prepareExpenseBarChartData(data);
    setChartData(result);
 
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup — remove
   }, [data]);
 
   return (

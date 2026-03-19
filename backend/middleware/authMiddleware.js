@@ -8,8 +8,10 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await User.findById(decoded.id).select('-password');
+    // [IMPROVE] Check if req.user is null (deleted user with valid token) before calling next()
     next();
   } catch (err) {
+    // [IMPROVE] Distinguish between expired token (401 + "Token expired") vs invalid token for better client UX
     res.status(401).json({ message: "Not authorized, token failed" });
   }
 };

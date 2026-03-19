@@ -32,14 +32,14 @@ const Home = () => {
 
     try {
       const response = await axiosInstance.get(
-        `${API_PATHS.DASHBOARD.GET_DATA}`
+        `${API_PATHS.DASHBOARD.GET_DATA}` // [SIMPLIFY] Unnecessary template literal
       );
 
       if (response.data) {
         setDashboardData(response.data);
       }
     } catch (error) {
-      console.log("Something went wrong. Please try again.", error);
+      console.log("Something went wrong. Please try again.", error); // [IMPROVE] Show toast instead of console.log
     } finally {
       setLoading(false);
     }
@@ -48,9 +48,10 @@ const Home = () => {
   useEffect(() => {
     fetchDashboardData();
 
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup — remove
   }, []);
 
+  // [IMPROVE] No loading/error state shown — add skeleton or spinner while dashboardData is null
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="my-5 mx-auto">

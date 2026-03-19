@@ -4,6 +4,8 @@ import CustomPieChart from "../charts/CustomPieChart";
 const COLORS = ["#875CF5", "#FA2C37", "#FF6900", "#4f39f6"];
 
 const RecentIncomeWithChart = ({ data, totalIncome }) => {
+  // [SIMPLIFY] This is derived data from props — use useMemo instead of state + effect:
+  //   const chartData = useMemo(() => data?.map(item => ({ name: item?.source, amount: item?.amount })), [data]);
   const [chartData, setChartData] = useState([]);
 
   const prepareChartData = () => {
@@ -18,7 +20,7 @@ const RecentIncomeWithChart = ({ data, totalIncome }) => {
   useEffect(() => {
     prepareChartData();
 
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup — remove
   }, [data]);
 
   return (

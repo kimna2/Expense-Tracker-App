@@ -23,6 +23,9 @@ const App = () => {
             <Route path="/" element={<Root />} />
             <Route path="/login" exact element={<LoginForm />} />
             <Route path="/signUp" exact element={<SignUpForm />} />
+            {/* [SECURITY] These routes are not protected — any user can navigate directly to them.
+                The useUserAuth hook redirects on failure, but there's a flash of unauthenticated content.
+                Fix: Create a <ProtectedRoute> wrapper component that checks auth before rendering. */}
             <Route path="/dashboard" exact element={<Home />} />
             <Route path="/income" exact element={<Income />} />
             <Route path="/expense" exact element={<Expense />} />

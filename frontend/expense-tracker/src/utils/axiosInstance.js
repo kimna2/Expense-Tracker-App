@@ -33,12 +33,15 @@ axiosInstance.interceptors.response.use(
     // Handle common errors globally
     if (error.response) {
       if (error.response.status === 401) {
-        // Redirect to login page
+        // [IMPROVE] This clears the token and redirects, but doesn't clear UserContext state.
+        // The user object remains in memory. Should dispatch a clearUser or use an event bus.
         const token = localStorage.getItem("token");
         if (token) {
+          // [IMPROVE] localStorage.removeItem("token") should be called here before redirect
           window.location.href = "/login";
         }
       } else if (error.response.status === 500) {
+        // [IMPROVE] console.error is not user-visible — show a toast notification instead
         console.error("Server error. Please try again later.");
       }
     } else if (error.code === "ECONNABORTED") {

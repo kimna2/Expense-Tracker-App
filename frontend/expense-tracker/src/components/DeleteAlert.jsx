@@ -1,5 +1,7 @@
 import React from "react";
 
+// [IMPROVE] Add a "Cancel" button alongside "Delete" for better UX
+// [IMPROVE] The delete button has no confirmation loading state — user can double-click
 const DeleteAlert = ({ content, onDelete }) => {
   return (
     <div>

@@ -2,6 +2,8 @@ import { XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaCh
 
 const CustomLineChart = ({ data }) => {
 
+  // [SIMPLIFY] Tooltip defined inside component — recreated every render. Move outside.
+  // [SIMPLIFY] Nearly identical to CustomBarChart's tooltip — share one component.
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
@@ -32,6 +34,7 @@ const CustomLineChart = ({ data }) => {
             <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
             <Tooltip content={<CustomTooltip />} />
             
+            {/* [READABILITY] Extract magic color values (#875cf5, #ab8df8) into a shared theme/constants file */}
             <Area type="monotone" dataKey="amount" stroke="#875cf5"  fill="url(#incomeGradient)" strokeWidth={3} dot={{ r: 3, fill: "#ab8df8" }} />
         </AreaChart>
       </ResponsiveContainer>

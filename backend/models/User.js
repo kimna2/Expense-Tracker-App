@@ -3,8 +3,8 @@ const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  email: { type: String, required: true, unique: true }, // [IMPROVE] Add lowercase: true and trim: true to normalize emails
+  password: { type: String, required: true }, // [IMPROVE] Add minlength: 8 at schema level
   profileImageUrl: { type: String, default: null },
 }, { timestamps: true });
 

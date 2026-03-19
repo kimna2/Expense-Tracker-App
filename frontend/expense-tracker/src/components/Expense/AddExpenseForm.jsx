@@ -3,6 +3,8 @@ import Input from "../Inputs/Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
 const AddExpenseForm = ({onAddExpense}) => {
+  // [IMPROVE] State variable is named "income" / "setIncome" but this is an expense form.
+  // Rename to "expense" / "setExpense" for clarity.
   const [income, setIncome] = useState({
     category: "",
     amount: "",

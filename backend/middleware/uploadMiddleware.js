@@ -20,6 +20,8 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({ storage, fileFilter });
+// [SECURITY] Add file size limit to prevent denial-of-service via large uploads
+// [IMPROVE] Sanitize file.originalname to prevent path traversal (e.g. strip ../ and special chars)
+const upload = multer({ storage, fileFilter /* , limits: { fileSize: 5 * 1024 * 1024 } */ });
 
 module.exports = upload;

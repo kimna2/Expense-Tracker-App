@@ -13,10 +13,12 @@ import DeleteAlert from "../../components/DeleteAlert";
 import Modal from "../../components/Modal";
 import toast from "react-hot-toast";
 
+// [SIMPLIFY] This page is ~90% identical to Income.jsx — extract shared <TransactionPage> component
+
 const Expense = () => {
   useUserAuth();
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // [CLEANUP] Unused variable
 
   const [expenseData, setExpenseData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,14 +37,14 @@ const Expense = () => {
 
     try {
       const response = await axiosInstance.get(
-        `${API_PATHS.EXPENSE.GET_ALL_EXPENSE}`
+        `${API_PATHS.EXPENSE.GET_ALL_EXPENSE}` // [SIMPLIFY] Unnecessary template literal
       );
 
       if (response.data) {
         setExpenseData(response.data);
       }
     } catch (error) {
-      console.log("Something went wrong. Please try again.", error);
+      console.log("Something went wrong. Please try again.", error); // [IMPROVE] Show toast instead of console.log
     } finally {
       setLoading(false);
     }
@@ -103,7 +105,7 @@ const Expense = () => {
     }
   };
 
-  // handle download expense details
+  // [SIMPLIFY] Identical blob download logic as Income.jsx — extract to shared utility
   const handleDownloadExpenseDetails = async () => {
     try {
       const response = await axiosInstance.get(
@@ -131,17 +133,18 @@ const Expense = () => {
   useEffect(() => {
     fetchExpenseDetails();
 
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup — remove
   }, []);
 
+  // [IMPROVE] No loading state shown to user
   return (
     <DashboardLayout activeMenu="Expense">
       <div className="my-5 mx-auto">
         <div className="grid grid-cols-1 gap-6">
-          <div className="">
+          <div className=""> {/* [CLEANUP] Empty className wrapper div — remove */}
             <ExpenseOverview
               transactions={expenseData}
-              onExpenseIncome={() => setOpenAddExpenseModal(true)}
+              onExpenseIncome={() => setOpenAddExpenseModal(true)} // [READABILITY] Prop name "onExpenseIncome" is confusing — should be "onAddExpense"
             />
           </div>
 

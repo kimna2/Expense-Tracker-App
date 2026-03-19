@@ -11,7 +11,7 @@ const SideMenu = ({ activeMenu }) => {
 
   const handleClick = (route) => {
     if (route === "logout") {
-      handelLogout();
+      handelLogout(); // [TYPO] "handel" should be "handle"
       return;
     }
 
@@ -29,13 +29,13 @@ const SideMenu = ({ activeMenu }) => {
       <div className="flex flex-col items-center justify-center gap-3 mt-3 mb-7">
         {user?.profileImageUrl ? (
           <img
-            src={user?.profileImageUrl || ""}
+            src={user?.profileImageUrl || ""} // [SIMPLIFY] The || "" is redundant — the ternary already guarantees profileImageUrl is truthy
             alt="Profile Image"
             className="w-20 h-20 bg-slate-400 rounded-full"
           />
         ) : (
           <CharAvatar
-            fullName={fullname}
+            fullName={fullname} // [BUG] "fullname" is undefined — should be "user?.fullName"
             width="w-20"
             height="h-20"
             style="text-xl"
@@ -43,15 +43,15 @@ const SideMenu = ({ activeMenu }) => {
         )}
 
         <h5 className="text-gray-950 font-medium leading-6">
-          {user.fullName || ""}
+          {user.fullName || ""} {/* [BUG] user can be null during loading — use user?.fullName */}
         </h5>
       </div>
 
       {SIDE_MENU_DATA.map((item, index) => (
         <button
-          key={`menu_${index}`}
+          key={`menu_${index}`} // [IMPROVE] Use item.id instead of index for stable keys
           className={`w-full flex items-center gap-4 text-[15px] ${
-            activeMenu == item.label ? "text-white bg-primary" : ""
+            activeMenu == item.label ? "text-white bg-primary" : "" // [READABILITY] Use === instead of ==
           } py-3 px-6 rounded-lg mb-3`}
           onClick={() => handleClick(item.path)}
         >
