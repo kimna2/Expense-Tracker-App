@@ -3,7 +3,8 @@ import { LuPlus } from "react-icons/lu";
 import CustomLineChart from "../Charts/CustomLineChart";
 import { prepareExpenseLineChartData } from "../../utils/helper";
 
-const ExpenseOverview = ({transactions, onExpenseIncome}) => {
+const ExpenseOverview = ({transactions, onExpenseIncome}) => { // [READABILITY] Prop "onExpenseIncome" is confusing — should be "onAddExpense"
+  // [CLEANUP] This hardcoded data array is never used — remove it
   const data = [
     { month: "Jan", amount: 1200 },
     { month: "Feb", amount: 1500 },
@@ -19,13 +20,15 @@ const ExpenseOverview = ({transactions, onExpenseIncome}) => {
     { month: "Dec", amount: 2700 },
   ];
 
+  // [SIMPLIFY] useState + useEffect to transform props is an anti-pattern for derived data.
+  // Replace with: const chartData = useMemo(() => prepareExpenseLineChartData(transactions), [transactions]);
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const result = prepareExpenseLineChartData(transactions);
     setChartData(result);
 
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup — remove
   }, [transactions]);
 
   return (

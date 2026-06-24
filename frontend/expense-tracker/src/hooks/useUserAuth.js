@@ -34,5 +34,7 @@ export const useUserAuth = () => {
     return () => {
       isMounted = false;
     };
-  }, [updateUser, clearUser, navigate]);
+  }, [updateUser, clearUser, navigate]); // [BUG] updateUser and clearUser are unstable references
+  // (recreated every render in UserContext). This can cause infinite re-renders.
+  // Fix: Wrap them in useCallback in UserContext, or remove from dependency array and use refs.
 };

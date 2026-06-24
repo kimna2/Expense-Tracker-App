@@ -8,16 +8,18 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Update the image state
       setImage(file);
 
-      // Generate preview URL from the file
+      // [BUG] Object URL is created but never revoked when a new image is selected or component unmounts.
+      // This causes a memory leak. Revoke the previous URL before creating a new one:
+      //   if (previewUrl) URL.revokeObjectURL(previewUrl);
       const preview = URL.createObjectURL(file);
       setPreviewUrl(preview);
     }
   };
 
   const handleRemoveImage = () => {
+    // [BUG] Should revoke the object URL here: if (previewUrl) URL.revokeObjectURL(previewUrl);
     setImage(null);
     setPreviewUrl(null);
   };

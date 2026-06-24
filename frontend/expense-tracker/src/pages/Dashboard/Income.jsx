@@ -13,6 +13,10 @@ import AddIncomeForm from "../../components/Income/AddIncomeForm";
 import toast from "react-hot-toast";
 import DeleteAlert from "../../components/DeleteAlert";
 
+// [SIMPLIFY] This page is ~90% identical to Expense.jsx.
+// Extract a shared <TransactionPage> component parameterized by apiPaths, labels, and form component.
+// This would eliminate ~130 lines of duplication across the two files.
+
 const Income = () => {
   useUserAuth();
 
@@ -33,14 +37,14 @@ const Income = () => {
 
     try {
       const response = await axiosInstance.get(
-        `${API_PATHS.INCOME.GET_ALL_INCOME}`
+        `${API_PATHS.INCOME.GET_ALL_INCOME}` // [SIMPLIFY] Template literal is unnecessary — just pass the string directly
       );
 
       if (response.data) {
         setIncomeData(response.data);
       }
     } catch (error) {
-      console.log("Something went wrong. Please try again.", error);
+      console.log("Something went wrong. Please try again.", error); // [IMPROVE] Show toast to user instead of console.log
     } finally {
       setLoading(false);
     }
@@ -50,7 +54,8 @@ const Income = () => {
   const handleAddIncome = async (income) => {
     const { source, amount, date, icon } = income;
 
-    // Validation Checks
+    // [IMPROVE] Validation is duplicated here AND in the backend controller.
+    // Keep backend validation for security, but consider a shared validation schema.
     if (!source.trim()) {
       toast.error("Source is required.");
       return;
@@ -101,7 +106,8 @@ const Income = () => {
     }
   };
 
-  // handle download income details
+  // [SIMPLIFY] This 10-line blob download handler is identical in Expense.jsx.
+  // Extract to a shared utility: downloadBlob(axiosInstance, url, filename)
   const handleDownloadIncomeDetails = async () => {
     try {
       const response = await axiosInstance.get(
@@ -128,14 +134,15 @@ const Income = () => {
 
   useEffect(() => {
     fetchIncomeDetails();
-    return () => {};
+    return () => {}; // [CLEANUP] Empty cleanup function is dead code — remove it
   }, []);
 
+  // [IMPROVE] No loading state shown to user — add a spinner or skeleton while fetching
   return (
     <DashboardLayout activeMenu="Income">
       <div className="my-5 mx-auto">
         <div className="grid grid-cols-1 gap-6">
-          <div className="">
+          <div className=""> {/* [CLEANUP] Empty className wrapper div serves no purpose — remove it */}
             <IncomeOverview
               transactions={incomeData}
               onAddIncome={() => setOpenAddIncomeModal(true)}

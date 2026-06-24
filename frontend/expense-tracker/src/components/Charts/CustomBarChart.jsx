@@ -12,11 +12,15 @@ import {
 
 const CustomBarChart = ({ data }) => {
 
-  // Function to alternate colors
+  // [SIMPLIFY] One-liner: const getBarColor = (i) => i % 2 === 0 ? "#875cf5" : "#cfbefb";
   const getBarColor = (index) => {
     return index % 2 === 0 ? "#875cf5" : "#cfbefb"; 
   };
 
+  // [SIMPLIFY] This tooltip is defined INSIDE the component — it gets recreated on every render.
+  // Move it outside CustomBarChart as a standalone component.
+  // [SIMPLIFY] Also, this tooltip is nearly identical to the one in CustomLineChart.
+  // Extract a shared <ChartTooltip labelKey="category" /> component.
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
@@ -50,7 +54,7 @@ const CustomBarChart = ({ data }) => {
             activeStyle={{ fill: "green" }}
           >
             {data.map((entry, index) => (
-              <Cell key={index} fill={getBarColor(index)} />
+              <Cell key={index} fill={getBarColor(index)} /> // [IMPROVE] Use a stable key instead of index
             ))}
           </Bar>
 

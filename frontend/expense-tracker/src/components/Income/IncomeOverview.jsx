@@ -6,13 +6,15 @@ import { prepareIncomeBarChartData } from "../../utils/helper";
 
 const IncomeOverview = ({ transactions, onAddIncome }) => {
 
+  // [SIMPLIFY] useState + useEffect for derived data — replace with useMemo:
+  //   const chartData = useMemo(() => prepareIncomeBarChartData(transactions), [transactions]);
   const [chartData, setChartData] = useState([])
 
   useEffect(() => {
      const result = prepareIncomeBarChartData(transactions);
      setChartData(result);
   
-      return () => {};
+      return () => {}; // [CLEANUP] Empty cleanup — remove
     }, [transactions]);
 
   return (

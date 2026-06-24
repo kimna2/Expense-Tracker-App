@@ -1,5 +1,10 @@
 import React from "react";
 
+// [IMPROVE] Modal should close when clicking the backdrop overlay (the dark background).
+// Add onClick={onClose} to the outer div, and e.stopPropagation() on the inner content div.
+// [IMPROVE] Modal should close on Escape key press — add a useEffect with keydown listener.
+// [IMPROVE] Add aria-modal="true" and role="dialog" for accessibility.
+
 const Modal = ({ isOpen, onClose, children, title }) => {
   if (!isOpen) return null;
 

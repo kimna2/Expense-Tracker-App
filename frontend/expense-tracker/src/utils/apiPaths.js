@@ -1,3 +1,6 @@
+// [BUG] BASE_URL is "/api" and axiosInstance uses it as baseURL,
+// but all API_PATHS below already include "/api/v1/..." — this results in requests to "/api/api/v1/...".
+// Fix: Either set BASE_URL = "" or remove the "/api" prefix from all paths below.
 export const BASE_URL = "/api";
 
 // utils/apiPaths.js
