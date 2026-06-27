@@ -13,7 +13,7 @@ export default defineConfig({
 
     proxy: {
       '/api': {
-        target: 'https://killingly-unstained-trang.ngrok-free.dev', // 🔴 LINK NGROK BACKEND
+        target: 'http://localhost:8000', // backend local
         changeOrigin: true,
         secure: false,
       },
